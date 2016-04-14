@@ -96,7 +96,7 @@ namespace Connection
         public int insertOrUpdate(String query, Boolean transact)
         {
             OleDbConnection connection = getConnectionString();
-            OleDbTransaction myTransaction = new OleDbTransaction();
+            OleDbTransaction myTransaction;
             int rowsAffected = 0;
             using (connection)
             {
@@ -111,7 +111,7 @@ namespace Connection
                     rowsAffected = command.ExecuteNonQuery();
                     if (transact)
                     {
-                        myTransaction.Commit();
+                    //    myTransaction.Commit();
                     }
                     return rowsAffected;
                 }
@@ -127,6 +127,29 @@ namespace Connection
             }
 
         }
+        //public static void ConnectToDB()
+        //{
+        //    OleDbConnection connection = getConnection();
+        //    TextWriterTraceListener myTraceListener = new TextWriterTraceListener("trace.log", "myTraceListener");
+        //    myTraceListener.WriteLine("Starting trace");
+        //    using (connection)
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            myTraceListener.WriteLine("State " + connection.State.ToString());
+        //            Debug.WriteLine("** Conection opened **");
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Debug.WriteLine("debug");
+        //            myTraceListener.WriteLine("A problem occurred during conection" + ex.ToString());
+        //        }
+
+        //    }
+        //    myTraceListener.Flush();
+        //    myTraceListener.Dispose();
+        //}
 
     }
 }
