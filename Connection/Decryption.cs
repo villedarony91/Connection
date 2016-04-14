@@ -10,9 +10,6 @@ namespace Connection
 {
     class Decryption
     {
-
-
-
         public string decryption(String encryptedString)
         {
             string skey = "IOJDGF123FGT1548IOJDGF123FGT1548";

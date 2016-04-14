@@ -17,7 +17,7 @@ namespace Connection
     /// <summary>
     /// Lógica de interacción para MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Page
     {
         public MainWindow()
         {
@@ -26,7 +26,15 @@ namespace Connection
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ConnectDB.ConnectToDB();
+            ConnectDB foo = new ConnectDB();
+            System.Data.DataTable dt = new System.Data.DataTable();
+           dt = foo.executeQuery("SELECT * FROM trefpuesto WHERE CODPUESTO = 0");
+           mallaDatos.DataContext = dt.DefaultView;
+           // foo.returnValue("SELECT * FROM trefpuesto WHERE CODPUESTO = 915");
         }
+
+
+
+
     }
 }
