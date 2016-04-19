@@ -1,0 +1,47 @@
+﻿Ocurrió un error durante la consulta a la base de datos System.Data.OleDb.OleDbException (0x80040E14): ORA-00904: "K": invalid identifier
+ORA-00904: "K": invalid identifier
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandTextForMultpleResults(tagDBPARAMS dbParams, Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   en System.Data.OleDb.OleDbCommand.ExecuteScalar()
+   en Connection.ConnectDB.executeScalar(String query) en c:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\Connection.cs:línea 120
+Ocurrió un error durante la consulta a la base de datos System.Data.OleDb.OleDbException (0x80040E14): ORA-00904: "K": invalid identifier
+ORA-00904: "K": invalid identifier
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandTextForMultpleResults(tagDBPARAMS dbParams, Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   en System.Data.OleDb.OleDbCommand.ExecuteReader(CommandBehavior behavior)
+   en System.Data.OleDb.OleDbCommand.ExecuteReader()
+   en Connection.ConnectDB.returnValue(String query) en c:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\Connection.cs:línea 79
+Ocurrió un error durante la consulta a la base de datos System.Data.OleDb.OleDbException (0x80040E14): ORA-00904: "K": invalid identifier
+ORA-00904: "K": invalid identifier
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandTextForMultpleResults(tagDBPARAMS dbParams, Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   en System.Data.OleDb.OleDbCommand.ExecuteReader(CommandBehavior behavior)
+   en System.Data.OleDb.OleDbCommand.ExecuteReader()
+   en Connection.ConnectDB.executeQuery(String query) en c:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\Connection.cs:línea 48
+Ocurrió un error durante la consulta a la base de datos System.Data.OleDb.OleDbException (0x80040E14): ORA-00900: invalid SQL statement
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandTextForMultpleResults(tagDBPARAMS dbParams, Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   en System.Data.OleDb.OleDbCommand.ExecuteNonQuery()
+   en Connection.ConnectDB.transactInsertOrUpdate(String query, Boolean lastQuery) en c:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\Connection.cs:línea 155
+Rollbacked1
+Ocurrió un error durante la consulta a la base de datos System.Data.OleDb.OleDbException (0x80040E14): ORA-00900: invalid SQL statement
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandTextForMultpleResults(tagDBPARAMS dbParams, Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   en System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   en System.Data.OleDb.OleDbCommand.ExecuteNonQuery()
+   en Connection.ConnectDB.transactInsertOrUpdate(String query, Boolean lastQuery) en c:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\Connection.cs:línea 155
+Rollbacked2

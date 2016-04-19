@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Configuration;
 using System.Data;
 using System.Windows;
+using System.Collections;
 namespace Connection
 {
     /// <summary>
@@ -14,7 +15,7 @@ namespace Connection
     /// </summary>
     public class ConnectDB
     {
-        TextWriterTraceListener myTraceWriter = new TextWriterTraceListener();
+        TextWriterTraceListener myTraceListener = new TextWriterTraceListener("trace1.log", "myTraceListener");
 
         /// <summary>
         /// Obtiene la cadena de conexión del app.config
@@ -24,6 +25,7 @@ namespace Connection
         {
             Decryption dec = new Decryption();
             OleDbConnection connection = new OleDbConnection();
+            //Obtiene la cadena de conexión y la desencripta
             connection.ConnectionString = dec.decryption(ConfigurationManager.ConnectionStrings["tests"].ToString());
             return connection;
         }
@@ -48,8 +50,14 @@ namespace Connection
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ocurrió un error durante la consulta a la base de datos" + ex.ToString());
+                    MessageBox.Show("Ocurrió un error durante la consulta a la base de datos " + ex.ToString());
+                    myTraceListener.WriteLine("Ocurrió un error durante la consulta a la base de datos " + ex.ToString());
                     return table;
+                }
+                finally
+                {
+                    myTraceListener.Flush();
+                    myTraceListener.Dispose();
                 }
             }
         }
@@ -82,74 +90,136 @@ namespace Connection
                 catch (Exception ex)
                 {
                     MessageBox.Show("Ocurrió un error durante la consulta a la base de datos " + ex.ToString());
+                    myTraceListener.WriteLine("Ocurrió un error durante la consulta a la base de datos " + ex.ToString());
+                     return false;
+                }
+                    finally
+                {
+                    myTraceListener.Flush();
+                    myTraceListener.Dispose();
+                }
+                   
+                }
+            }
+        
+
+        /// <summary>
+        /// Realiza consulta que devuelve un solo valor
+        /// </summary>
+        /// <param name="query">Consulta a realizar</param>
+        /// <returns>El valor obtenido con la consulta</returns>
+        public object executeScalar(string query)
+        {
+            OleDbConnection connection = getConnectionString();
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+                    OleDbCommand command = new OleDbCommand(query, connection);
+                    return command.ExecuteScalar();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ocurrió un error durante la consulta a la base de datos " + ex.ToString());
+                    myTraceListener.WriteLine("Ocurrió un error durante la consulta a la base de datos " + ex.ToString());
                     return false;
+                }
+                finally
+                {
+                    myTraceListener.Flush();
+                    myTraceListener.Dispose();
                 }
             }
         }
 
         /// <summary>
-        /// Realiza las operaciones de insert y update
+        /// Realiza una actualización a la base de datos utilizando transacciones
         /// </summary>
         /// <param name="query"></param>
-        /// <param name="transact"></param>
-        /// <returns>número de filas afectadas por el comando</returns>
-        public int insertOrUpdate(String query, Boolean transact)
+        /// <returns>numero de filas afectadas</returns>
+        public int transactInsertOrUpdate(String query, Boolean lastQuery = true)
         {
             OleDbConnection connection = getConnectionString();
-            OleDbTransaction myTransaction;
+            OleDbTransaction transaction = null;
+            OleDbCommand command;
             int rowsAffected = 0;
             using (connection)
             {
                 try
                 {
-                    if (transact)
-                    {
-                        myTransaction = connection.BeginTransaction();
-                    }
                     connection.Open();
-                    OleDbCommand command = new OleDbCommand(query, connection);
+                    transaction = connection.BeginTransaction();
+                    command = new OleDbCommand(query, connection);
+                    command.Transaction = transaction;
                     rowsAffected = command.ExecuteNonQuery();
-                    if (transact)
+                    if (lastQuery)
                     {
-                    //    myTransaction.Commit();
+                        transaction.Commit();
                     }
                     return rowsAffected;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Ha ocurrido un error durante la escritura a la base de datos " + ex.ToString());
-                    if (transact)
+                    myTraceListener.WriteLine("Ocurrió un error durante la consulta a la base de datos " + ex.ToString());
+                    try
                     {
-                        myTransaction.Rollback();
+                        transaction.Rollback();
+                        myTraceListener.WriteLine("Rollbacked" + query);
+                    }
+                    catch
+                    {
+                        myTraceListener.WriteLine("Es posible no se hubiere efectuado el rollback");
+                        //Transacción ya no está activa
+
                     }
                     return rowsAffected;
                 }
+                finally
+                {
+                    myTraceListener.Flush();
+                    myTraceListener.Dispose();
+                }
             }
 
+
         }
-        //public static void ConnectToDB()
-        //{
-        //    OleDbConnection connection = getConnection();
-        //    TextWriterTraceListener myTraceListener = new TextWriterTraceListener("trace.log", "myTraceListener");
-        //    myTraceListener.WriteLine("Starting trace");
-        //    using (connection)
-        //    {
-        //        try
-        //        {
-        //            connection.Open();
-        //            myTraceListener.WriteLine("State " + connection.State.ToString());
-        //            Debug.WriteLine("** Conection opened **");
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Debug.WriteLine("debug");
-        //            myTraceListener.WriteLine("A problem occurred during conection" + ex.ToString());
-        //        }
 
-        //    }
-        //    myTraceListener.Flush();
-        //    myTraceListener.Dispose();
-        //}
+        /// <summary>
+        /// Maneja múltiples inserts transaccionales
+        /// </summary>
+        /// <param name="queryList">Lista de insterts o updates</param>
+        public void multipleTransact(System.Collections.ArrayList queryList)
+        {
+            int count = 0;
+            try
+            {
+                foreach (string query in queryList)
+                {
+                    count++;
+                    bool key = queryList.Count == count ? true : false;
+                    transactInsertOrUpdate(query, key);
+                }
+            }
+            catch
+            {
 
+            }
+        }
+
+        public void write()
+        {
+            string insert = "INSERT INTO tempTest (empNo, nombre1, nombre2)" +
+                "VALUES" +
+                "(5,'MARIA','PEDRO')";
+            string insert2 = "Insert into empleado Values(3,'conserje',4)";
+
+            //transactInsertOrUpdate(insert);   
+            ArrayList s = new ArrayList();
+            s.Add(insert);
+            s.Add(insert2);
+            multipleTransact(s);
+        }
     }
 }

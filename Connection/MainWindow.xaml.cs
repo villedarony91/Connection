@@ -28,9 +28,11 @@ namespace Connection
         {
             ConnectDB foo = new ConnectDB();
             System.Data.DataTable dt = new System.Data.DataTable();
-           dt = foo.executeQuery("SELECT * FROM trefpuesto WHERE CODPUESTO = 0");
-           mallaDatos.DataContext = dt.DefaultView;
+            //foo.transactInsertOrUpdate("INSERT ESTADO FROM trefpuesto WHERE CODPUESTO = k").ToString();
+            //dt = foo.executeQuery("SELECT * FROM trefpuesto WHERE CODPUESTO = 3");
+            //mallaDatos.DataContext = dt.DefaultView;
            // foo.returnValue("SELECT * FROM trefpuesto WHERE CODPUESTO = 915");
+           foo.write();
         }
 
 

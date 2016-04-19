@@ -16,5 +16,6 @@ C:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\bin
 C:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\bin\Debug\Connection.application
 C:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\obj\Debug\Connection.exe.manifest
 C:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\obj\Debug\Connection.application
-C:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\obj\Debug\Connection.csprojResolveAssemblyReference.cache
 C:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\bin\Debug\Connection.exe.config
+C:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\bin\Debug\Connection.exe.CodeAnalysisLog.xml
+C:\Users\rjlopez\Documents\Visual Studio 2012\Projects\Connection\Connection\bin\Debug\Connection.exe.lastcodeanalysissucceeded

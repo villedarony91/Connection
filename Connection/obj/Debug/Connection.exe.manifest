@@ -57,14 +57,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Connection.exe" size="11776">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Connection.exe" size="13824">
       <assemblyIdentity name="Connection" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>0qDjCB3u+7xuv7JHMZmjft93bM0=</dsig:DigestValue>
+        <dsig:DigestValue>gs+NdPrcICymVTcKqmBd0XJ+Blo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -92,13 +92,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Connection.exe.config" size="447">
+  <file name="Connection.exe.config" size="814">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>J8bmqBxecmN+kMzaAtH8V2/yAy4=</dsig:DigestValue>
+      <dsig:DigestValue>3vQQSbrmvkT3UX/TA9XqXv3OSY8=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>
