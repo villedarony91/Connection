@@ -138,24 +138,34 @@ namespace Connection
         /// </summary>
         /// <param name="query"></param>
         /// <returns>numero de filas afectadas</returns>
-        public int transactInsertOrUpdate(String query, Boolean lastQuery = true)
+        public int transactInsertOrUpdate(ArrayList queryList, Boolean lastQuery = true)
         {
             OleDbConnection connection = getConnectionString();
             OleDbTransaction transaction = null;
             OleDbCommand command;
             int rowsAffected = 0;
+            String result = "";
             using (connection)
             {
                 try
                 {
                     connection.Open();
                     transaction = connection.BeginTransaction();
-                    command = new OleDbCommand(query, connection);
-                    command.Transaction = transaction;
-                    rowsAffected = command.ExecuteNonQuery();
+                    foreach(String query in queryList)
+                    {
+                        command = new OleDbCommand(query, connection);
+                        command.Transaction = transaction;
+                        rowsAffected += command.ExecuteNonQuery();
+                        result = query;
+                    
+                    }
                     if (lastQuery)
                     {
                         transaction.Commit();
+                    }
+                    else
+                    { 
+                        
                     }
                     return rowsAffected;
                 }
@@ -166,7 +176,7 @@ namespace Connection
                     try
                     {
                         transaction.Rollback();
-                        myTraceListener.WriteLine("Rollbacked" + query);
+                        myTraceListener.WriteLine("Rollbacked" + result);
                     }
                     catch
                     {
@@ -190,23 +200,23 @@ namespace Connection
         /// Maneja múltiples inserts transaccionales
         /// </summary>
         /// <param name="queryList">Lista de insterts o updates</param>
-        public void multipleTransact(System.Collections.ArrayList queryList)
-        {
-            int count = 0;
-            try
-            {
-                foreach (string query in queryList)
-                {
-                    count++;
-                    bool key = queryList.Count == count ? true : false;
-                    transactInsertOrUpdate(query, key);
-                }
-            }
-            catch
-            {
+        //public void multipleTransact(System.Collections.ArrayList queryList)
+        //{
+        //    int count = 0;
+        //    try
+        //    {
+        //        foreach (string query in queryList)
+        //        {
+        //            count++;
+        //            bool key = queryList.Count == count ? true : false;
+        //            transactInsertOrUpdate(query, key);
+        //        }
+        //    }
+        //    catch
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
         public void write()
         {
@@ -219,7 +229,7 @@ namespace Connection
             ArrayList s = new ArrayList();
             s.Add(insert);
             s.Add(insert2);
-            multipleTransact(s);
+            transactInsertOrUpdate(s);
         }
     }
 }
