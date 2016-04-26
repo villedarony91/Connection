@@ -91,17 +91,17 @@ namespace Connection
                 {
                     MessageBox.Show("Ocurrió un error durante la consulta a la base de datos " + ex.ToString());
                     myTraceListener.WriteLine("Ocurrió un error durante la consulta a la base de datos " + ex.ToString());
-                     return false;
+                    return false;
                 }
-                    finally
+                finally
                 {
                     myTraceListener.Flush();
                     myTraceListener.Dispose();
                 }
-                   
-                }
+
             }
-        
+        }
+
 
         /// <summary>
         /// Realiza consulta que devuelve un solo valor
@@ -138,7 +138,7 @@ namespace Connection
         /// </summary>
         /// <param name="query"></param>
         /// <returns>numero de filas afectadas</returns>
-        public int transactInsertOrUpdate(ArrayList queryList, Boolean lastQuery = true)
+        public int transactInsertOrUpdate(ArrayList queryList)
         {
             OleDbConnection connection = getConnectionString();
             OleDbTransaction transaction = null;
@@ -151,22 +151,15 @@ namespace Connection
                 {
                     connection.Open();
                     transaction = connection.BeginTransaction();
-                    foreach(String query in queryList)
+                    foreach (String query in queryList)
                     {
                         command = new OleDbCommand(query, connection);
                         command.Transaction = transaction;
                         rowsAffected += command.ExecuteNonQuery();
                         result = query;
-                    
+
                     }
-                    if (lastQuery)
-                    {
-                        transaction.Commit();
-                    }
-                    else
-                    { 
-                        
-                    }
+                    transaction.Commit();
                     return rowsAffected;
                 }
                 catch (Exception ex)
@@ -197,38 +190,35 @@ namespace Connection
         }
 
         /// <summary>
-        /// Maneja múltiples inserts transaccionales
+        /// Convierte un string en un array para poder ser utilizado en el método transactInsertOrUpdate
         /// </summary>
-        /// <param name="queryList">Lista de insterts o updates</param>
-        //public void multipleTransact(System.Collections.ArrayList queryList)
-        //{
-        //    int count = 0;
-        //    try
-        //    {
-        //        foreach (string query in queryList)
-        //        {
-        //            count++;
-        //            bool key = queryList.Count == count ? true : false;
-        //            transactInsertOrUpdate(query, key);
-        //        }
-        //    }
-        //    catch
-        //    {
+        /// <param name="query">Cadena a agregar</param>
+        /// <returns>El array con la cadena agregada</returns>
+        public ArrayList convertToArray(String query) 
+        {
+            ArrayList array = new ArrayList();
+            array.Add(query);
+            return array;
+        }
 
-        //    }
-        //}
+
+
 
         public void write()
         {
             string insert = "INSERT INTO tempTest (empNo, nombre1, nombre2)" +
                 "VALUES" +
-                "(5,'MARIA','PEDRO')";
-            string insert2 = "Insert into empleado Values(3,'conserje',4)";
-
+                "(11,'TREBOL','ANA')";
+            string insert2 = "Insert into empleado Values(2,'gerente',11)";
+            string insert3 = "INSERT INTO grados Values(2,'I',0)";
+            string insert4 = "INSERT INTO residencia Values(2,'casa2',10)";
+            //transactInsertOrUpdate(convertToArray(insert));
             //transactInsertOrUpdate(insert);   
             ArrayList s = new ArrayList();
             s.Add(insert);
             s.Add(insert2);
+            s.Add(insert3);
+            s.Add(insert4);
             transactInsertOrUpdate(s);
         }
     }
